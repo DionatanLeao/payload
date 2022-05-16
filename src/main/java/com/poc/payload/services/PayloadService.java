@@ -40,6 +40,7 @@ public class PayloadService {
 		payload.setFormCode(payloadUpdate.getFormCode());
 		payload.setFileName(payloadUpdate.getFileName());
 		payload.setContent(payloadUpdate.getContent());
+		payload.setToken(payloadUpdate.getToken());
 		return payload;
 	}
 	
