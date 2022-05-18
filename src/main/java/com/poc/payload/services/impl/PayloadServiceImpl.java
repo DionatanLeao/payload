@@ -15,36 +15,36 @@ import com.poc.payload.services.PayloadService;
 public class PayloadServiceImpl implements PayloadService {
 	
 	@Autowired
-	private PayloadRepository repo;
+	private PayloadRepository repository;
 	
 	@Override
 	public List<Payload> findAll() {
-		return repo.findAll();
+		return repository.findAll();
 	}
 	
 	@Override
 	public Payload findById(Long id) {
-		Payload payload = repo.findById(id).orElseThrow(() -> new EntityNotFoundException("Not found: " + id));
+		Payload payload = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Not found: " + id));
 		return payload;
 	}
 	
 	@Override
 	public Payload save(Payload payload) {
-		return repo.save(payload);
+		return repository.save(payload);
 	}
 	
 	@Override
 	public Payload update(Payload payloadUpdate, Long id) {
 		Payload payload = findById(id);
 		Payload payloadUpdated = updateData(payload, payloadUpdate);
-		return repo.save(payloadUpdated);
+		return repository.save(payloadUpdated);
 		
 	}
 	
 	@Override
 	public void delete(Long id) {
 		Payload payload = findById(id);
-		repo.delete(payload);
+		repository.delete(payload);
 	}
 	
 	private Payload updateData(Payload payload, Payload payloadUpdate) {
