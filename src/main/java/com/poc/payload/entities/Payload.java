@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +24,8 @@ public class Payload {
 	private String formCode;
 	private String fileName;
 	private String content;
+	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String token;
 	
 }
