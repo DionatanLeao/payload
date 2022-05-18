@@ -5,11 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import com.poc.payload.entities.Payload;
@@ -17,17 +19,29 @@ import com.poc.payload.repositories.PayloadRepository;
 
 class PayloadServiceImplTest {
 	
+	private static final String TOKEN = "R2VyYW5kbyB0b2tlbiBTU08=";
+
+	private static final String CONTENT = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis";
+
+	private static final String FILE_NAME = "arquivo_1";
+
+	private static final String FORM_CODE = "x123";
+
+	private static final long ID = 1L;
+
 	@InjectMocks
 	private PayloadServiceImpl service;
 	
 	@Mock
 	private PayloadRepository repository;
 	
-	@Mock
 	private Payload payload;
 	
+	private Optional<Payload> optionalPayload;
+	
 	private void startPayload() {
-		payload = new Payload(1L, "x123", "arquivo_1", "Texto genérico para teste unitário", "R2VyYW5kbyB0b2tlbiBTU08=");
+		payload = new Payload(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
+		optionalPayload = Optional.of(new Payload(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN));
 	}
 	
 	@BeforeEach
@@ -45,10 +59,25 @@ class PayloadServiceImplTest {
 		assertNotNull(response);
 		assertEquals(Payload.class, response.get(0).getClass());	
 		
-		assertEquals(1L, response.get(0).getId());
-		assertEquals("x123", response.get(0).getFormCode());
-		assertEquals("arquivo_1", response.get(0).getFileName());
-		assertEquals("Texto genérico para teste unitário", response.get(0).getContent());
+		assertEquals(ID, response.get(0).getId());
+		assertEquals(FORM_CODE, response.get(0).getFormCode());
+		assertEquals(FILE_NAME, response.get(0).getFileName());
+		assertEquals(CONTENT, response.get(0).getContent());
+
+	}
+	
+	@Test
+	void findById() {
+		when(repository.findById(Mockito.anyLong())).thenReturn(optionalPayload);
+		
+		Payload response = service.findById(ID);
+		
+		assertNotNull(response);
+		assertEquals(Payload.class, response.getClass());
+		assertEquals(ID, response.getId());
+		assertEquals(FORM_CODE, response.getFormCode());
+		assertEquals(FILE_NAME, response.getFileName());
+		assertEquals(CONTENT, response.getContent());
 
 	}
 
