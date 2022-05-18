@@ -7,6 +7,8 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -28,6 +30,8 @@ class PayloadServiceImplTest {
 	private static final String FORM_CODE = "x123";
 
 	private static final long ID = 1L;
+
+	private static final String NOT_FOUND = "Not found: " + ID;
 
 	@InjectMocks
 	private PayloadServiceImpl service;
@@ -81,4 +85,16 @@ class PayloadServiceImplTest {
 
 	}
 
+	@Test
+	void findByIdEntityNotFoundException() {
+		when(repository.findById(Mockito.anyLong())).thenThrow(new EntityNotFoundException(NOT_FOUND));
+
+		try {
+			service.findById(ID);
+		} catch (Exception e) {
+			assertEquals(EntityNotFoundException.class, e.getClass());
+			assertEquals(NOT_FOUND, e.getMessage());
+		}	
+		
+	}
 }
