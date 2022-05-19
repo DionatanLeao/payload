@@ -51,13 +51,16 @@ public class PayloadController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Payload> update(@RequestBody Payload payloadUpdate, @PathVariable Long id) {
+	public ResponseEntity<Payload> update(@RequestBody Payload payloadUpdate, @PathVariable Long id, 
+			@RequestHeader(name = "token", defaultValue = "") String token) {
+		payloadUpdate.setToken(token);
 		Payload payload = service.update(payloadUpdate, id);
 		return ResponseEntity.ok().body(payload);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id) { 
+	public ResponseEntity<Void> delete(@PathVariable Long id, 
+			@RequestHeader(name = "token", defaultValue = "") String token) { 
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
