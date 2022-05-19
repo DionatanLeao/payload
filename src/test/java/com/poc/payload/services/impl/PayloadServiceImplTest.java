@@ -111,4 +111,20 @@ class PayloadServiceImplTest {
 		assertEquals(FILE_NAME, response.getFileName());
 		assertEquals(CONTENT, response.getContent());
 	}
+	
+	@Test
+	void update() {
+		when(repository.findById(Mockito.anyLong())).thenReturn(optionalPayload);
+		when(repository.save(Mockito.any())).thenReturn(payload);
+		
+		Payload response = service.update(payload, ID);
+		
+		assertNotNull(response);
+		assertEquals(Payload.class, response.getClass());
+		assertEquals(ID, response.getId());
+		assertEquals(FORM_CODE, response.getFormCode());
+		assertEquals(FILE_NAME, response.getFileName());
+		assertEquals(CONTENT, response.getContent());
+		
+	}
 }
