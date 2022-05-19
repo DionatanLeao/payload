@@ -2,6 +2,9 @@ package com.poc.payload.services.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -29,7 +32,7 @@ class PayloadServiceImplTest {
 
 	private static final String FORM_CODE = "x123";
 
-	private static final long ID = 1L;
+	private static final Long ID = 1L;
 
 	private static final String NOT_FOUND = "Not found: " + ID;
 
@@ -126,5 +129,15 @@ class PayloadServiceImplTest {
 		assertEquals(FILE_NAME, response.getFileName());
 		assertEquals(CONTENT, response.getContent());
 		
+	}
+	
+	@Test
+	void delete() {
+		when(repository.findById(Mockito.anyLong())).thenReturn(optionalPayload);
+		doNothing().when(repository).delete(Mockito.any());
+		
+		service.delete(ID);
+		
+		verify(repository, times(1)).delete(Mockito.any());
 	}
 }
