@@ -31,8 +31,7 @@ public class PayloadController {
 	
 	@GetMapping
 	public ResponseEntity<List<Payload>> findAll() {
-		List<Payload> payloads = service.findAll();
-		return ResponseEntity.ok().body(payloads);
+		return ResponseEntity.ok().body(service.findAll());
 	}
 	
 	@GetMapping("/{id}")
