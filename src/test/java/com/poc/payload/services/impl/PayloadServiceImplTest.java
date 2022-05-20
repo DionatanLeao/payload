@@ -18,12 +18,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.poc.payload.entities.Payload;
 import com.poc.payload.repositories.PayloadRepository;
 
+@SpringBootTest
 class PayloadServiceImplTest {
 	
+	private static final Integer INDEX = 0;
+
 	private static final String TOKEN = "R2VyYW5kbyB0b2tlbiBTU08=";
 
 	private static final String CONTENT = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis";
@@ -64,12 +68,12 @@ class PayloadServiceImplTest {
 		List<Payload> response = service.findAll();
 		
 		assertNotNull(response);
-		assertEquals(Payload.class, response.get(0).getClass());	
+		assertEquals(Payload.class, response.get(INDEX).getClass());	
 		
-		assertEquals(ID, response.get(0).getId());
-		assertEquals(FORM_CODE, response.get(0).getFormCode());
-		assertEquals(FILE_NAME, response.get(0).getFileName());
-		assertEquals(CONTENT, response.get(0).getContent());
+		assertEquals(ID, response.get(INDEX).getId());
+		assertEquals(FORM_CODE, response.get(INDEX).getFormCode());
+		assertEquals(FILE_NAME, response.get(INDEX).getFileName());
+		assertEquals(CONTENT, response.get(INDEX).getContent());
 
 	}
 	
