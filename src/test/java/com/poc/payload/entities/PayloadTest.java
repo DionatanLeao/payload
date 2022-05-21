@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.poc.payload.dto.PayloadDTO;
+
 @SpringBootTest
 class PayloadTest {
 
@@ -17,7 +19,7 @@ class PayloadTest {
 
 	@Test
 	void test() {
-		Payload payload = new Payload();
+		PayloadDTO payload = new PayloadDTO();
 		
 		payload.setId(ID);
 		payload.setFormCode(FORM_CODE);
