@@ -82,5 +82,17 @@ class PayloadControllerTest {
 		assertEquals(CONTENT, response.getBody().getContent());
 		
 	}
+	
+	@Test
+	void save() {
+		when(service.save(Mockito.any())).thenReturn(payload);
+		
+		ResponseEntity<Payload> response = controller.save(payload, TOKEN);
+		
+		assertNotNull(response);
+		assertEquals(ResponseEntity.class, response.getClass());
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+
+	}
 
 }
