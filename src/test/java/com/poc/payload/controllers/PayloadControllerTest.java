@@ -94,5 +94,24 @@ class PayloadControllerTest {
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
 	}
-
+	
+	@Test
+	void update() {
+		when(service.update(Mockito.any(), Mockito.anyLong())).thenReturn(payload);
+		
+		ResponseEntity<Payload> response = controller.update(payload, ID, TOKEN);
+		
+		assertNotNull(response);
+		assertNotNull(response.getBody());
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(ResponseEntity.class, response.getClass());
+		assertEquals(Payload.class, response.getBody().getClass());
+		
+		assertEquals(ID, response.getBody().getId());
+		assertEquals(FORM_CODE, response.getBody().getFormCode());
+		assertEquals(FILE_NAME, response.getBody().getFileName());
+		assertEquals(CONTENT, response.getBody().getContent());
+		
+	}
+ 
 }
