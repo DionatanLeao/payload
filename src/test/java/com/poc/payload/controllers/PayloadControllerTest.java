@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -62,6 +63,23 @@ class PayloadControllerTest {
 		assertEquals(FILE_NAME, response.getBody().get(INDEX).getFileName());
 		assertEquals(CONTENT, response.getBody().get(INDEX).getContent());
 		assertEquals(TOKEN, response.getBody().get(INDEX).getToken());
+		
+	}
+	
+	@Test
+	void findById() {
+		when(service.findById(Mockito.anyLong())).thenReturn(payload);
+		
+		ResponseEntity<Payload> response = controller.findById(ID);
+		
+		assertNotNull(response.getBody());
+		assertEquals(ResponseEntity.class, response.getClass());
+		assertEquals(Payload.class, response.getBody().getClass());
+		
+		assertEquals(ID, response.getBody().getId());
+		assertEquals(FORM_CODE, response.getBody().getFormCode());
+		assertEquals(FILE_NAME, response.getBody().getFileName());
+		assertEquals(CONTENT, response.getBody().getContent());
 		
 	}
 
