@@ -2,6 +2,9 @@ package com.poc.payload.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -112,6 +115,19 @@ class PayloadControllerTest {
 		assertEquals(FILE_NAME, response.getBody().getFileName());
 		assertEquals(CONTENT, response.getBody().getContent());
 		
+	}
+	
+	@Test
+	void delete() {
+		doNothing().when(service).delete(Mockito.anyLong());
+		
+		ResponseEntity<Void> response = controller.delete(ID, TOKEN);
+		
+		assertNotNull(response);
+		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+		assertEquals(ResponseEntity.class, response.getClass());
+		
+		verify(service, times(1)).delete(Mockito.anyLong());
 	}
  
 }
