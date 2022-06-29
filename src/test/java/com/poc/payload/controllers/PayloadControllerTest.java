@@ -15,11 +15,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.poc.payload.dto.PayloadDTO;
+import com.poc.payload.domain.Payload;
+import com.poc.payload.domain.dto.PayloadDTO;
 import com.poc.payload.services.impl.PayloadServiceImpl;
 
 @SpringBootTest
@@ -38,10 +40,16 @@ class PayloadControllerTest {
 	@Mock
 	private PayloadServiceImpl service;
 	
-	private PayloadDTO payload;
+	@Mock
+	private ModelMapper mapper;
+	
+	private Payload payload;
+	
+	private PayloadDTO payloadDTO;
 	
 	void start() {
-		payload = new PayloadDTO(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
+		payload = new Payload(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
+		payloadDTO = new PayloadDTO(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
 	}
 
 	@BeforeEach
@@ -54,12 +62,12 @@ class PayloadControllerTest {
 	void findAll() {
 		when(service.findAll()).thenReturn(List.of(payload));
 		
-		ResponseEntity<List<PayloadDTO>> response = controller.findAll();
+		ResponseEntity<List<Payload>> response = controller.findAll();
 		
 		assertNotNull(response.getBody());
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(ResponseEntity.class, response.getClass());
-		assertEquals(PayloadDTO.class, response.getBody().get(INDEX).getClass());
+		assertEquals(Payload.class, response.getBody().get(INDEX).getClass());
 		
 		assertEquals(ID, response.getBody().get(INDEX).getId());
 		assertEquals(FORM_CODE, response.getBody().get(INDEX).getFormCode());
@@ -72,6 +80,7 @@ class PayloadControllerTest {
 	@Test
 	void findById() {
 		when(service.findById(Mockito.anyLong())).thenReturn(payload);
+		when(mapper.map(Mockito.any(), Mockito.any())).thenReturn(payloadDTO);
 		
 		ResponseEntity<PayloadDTO> response = controller.findById(ID);
 		
@@ -90,7 +99,7 @@ class PayloadControllerTest {
 	void save() {
 		when(service.save(Mockito.any())).thenReturn(payload);
 		
-		ResponseEntity<PayloadDTO> response = controller.save(payload, TOKEN);
+		ResponseEntity<Payload> response = controller.save(payload, TOKEN);
 		
 		assertNotNull(response);
 		assertEquals(ResponseEntity.class, response.getClass());
@@ -102,13 +111,13 @@ class PayloadControllerTest {
 	void update() {
 		when(service.update(Mockito.any(), Mockito.anyLong())).thenReturn(payload);
 		
-		ResponseEntity<PayloadDTO> response = controller.update(payload, ID, TOKEN);
+		ResponseEntity<Payload> response = controller.update(payload, ID, TOKEN);
 		
 		assertNotNull(response);
 		assertNotNull(response.getBody());
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(ResponseEntity.class, response.getClass());
-		assertEquals(PayloadDTO.class, response.getBody().getClass());
+		assertEquals(Payload.class, response.getBody().getClass());
 		
 		assertEquals(ID, response.getBody().getId());
 		assertEquals(FORM_CODE, response.getBody().getFormCode());

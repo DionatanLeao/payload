@@ -20,7 +20,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.poc.payload.dto.PayloadDTO;
+import com.poc.payload.domain.Payload;
 import com.poc.payload.repositories.PayloadRepository;
 
 @SpringBootTest
@@ -46,13 +46,13 @@ class PayloadServiceImplTest {
 	@Mock
 	private PayloadRepository repository;
 	
-	private PayloadDTO payload;
+	private Payload payload;
 	
-	private Optional<PayloadDTO> optionalPayload;
+	private Optional<Payload> optionalPayload;
 	
 	private void startPayload() {
-		payload = new PayloadDTO(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
-		optionalPayload = Optional.of(new PayloadDTO(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN));
+		payload = new Payload(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
+		optionalPayload = Optional.of(new Payload(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN));
 	}
 	
 	@BeforeEach
@@ -65,10 +65,10 @@ class PayloadServiceImplTest {
 	void findAll() {
 		when(repository.findAll()).thenReturn(List.of(payload));
 		
-		List<PayloadDTO> response = service.findAll();
+		List<Payload> response = service.findAll();
 		
 		assertNotNull(response);
-		assertEquals(PayloadDTO.class, response.get(INDEX).getClass());	
+		assertEquals(Payload.class, response.get(INDEX).getClass());	
 		
 		assertEquals(ID, response.get(INDEX).getId());
 		assertEquals(FORM_CODE, response.get(INDEX).getFormCode());
@@ -81,10 +81,10 @@ class PayloadServiceImplTest {
 	void findById() {
 		when(repository.findById(Mockito.anyLong())).thenReturn(optionalPayload);
 		
-		PayloadDTO response = service.findById(ID);
+		Payload response = service.findById(ID);
 		
 		assertNotNull(response);
-		assertEquals(PayloadDTO.class, response.getClass());
+		assertEquals(Payload.class, response.getClass());
 		assertEquals(ID, response.getId());
 		assertEquals(FORM_CODE, response.getFormCode());
 		assertEquals(FILE_NAME, response.getFileName());
@@ -109,10 +109,10 @@ class PayloadServiceImplTest {
 	void save() {
 		when(repository.save(Mockito.any())).thenReturn(payload);
 		
-		PayloadDTO response = service.save(payload);
+		Payload response = service.save(payload);
 		
 		assertNotNull(response);
-		assertEquals(PayloadDTO.class, response.getClass());
+		assertEquals(Payload.class, response.getClass());
 		assertEquals(ID, response.getId());
 		assertEquals(FORM_CODE, response.getFormCode());
 		assertEquals(FILE_NAME, response.getFileName());
@@ -124,10 +124,10 @@ class PayloadServiceImplTest {
 		when(repository.findById(Mockito.anyLong())).thenReturn(optionalPayload);
 		when(repository.save(Mockito.any())).thenReturn(payload);
 		
-		PayloadDTO response = service.update(payload, ID);
+		Payload response = service.update(payload, ID);
 		
 		assertNotNull(response);
-		assertEquals(PayloadDTO.class, response.getClass());
+		assertEquals(Payload.class, response.getClass());
 		assertEquals(ID, response.getId());
 		assertEquals(FORM_CODE, response.getFormCode());
 		assertEquals(FILE_NAME, response.getFileName());

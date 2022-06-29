@@ -7,7 +7,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.poc.payload.dto.PayloadDTO;
+import com.poc.payload.domain.Payload;
 import com.poc.payload.repositories.PayloadRepository;
 import com.poc.payload.services.PayloadService;
 
@@ -18,36 +18,36 @@ public class PayloadServiceImpl implements PayloadService {
 	private PayloadRepository repository;
 	
 	@Override
-	public List<PayloadDTO> findAll() {
+	public List<Payload> findAll() {
 		return repository.findAll();
 	}
 	
 	@Override
-	public PayloadDTO findById(Long id) {
-		PayloadDTO payload = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Not found: " + id));
+	public Payload findById(Long id) {
+		Payload payload = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Not found: " + id));
 		return payload;
 	}
 	
 	@Override
-	public PayloadDTO save(PayloadDTO payload) {
+	public Payload save(Payload payload) {
 		return repository.save(payload);
 	}
 	
 	@Override
-	public PayloadDTO update(PayloadDTO payloadUpdate, Long id) {
-		PayloadDTO payload = findById(id);
-		PayloadDTO payloadUpdated = updateData(payload, payloadUpdate);
+	public Payload update(Payload payloadUpdate, Long id) {
+		Payload payload = findById(id);
+		Payload payloadUpdated = updateData(payload, payloadUpdate);
 		return repository.save(payloadUpdated);
 		
 	}
 	
 	@Override
 	public void delete(Long id) {
-		PayloadDTO payload = findById(id);
+		Payload payload = findById(id);
 		repository.delete(payload);
 	}
 	
-	private PayloadDTO updateData(PayloadDTO payload, PayloadDTO payloadUpdate) {
+	private Payload updateData(Payload payload, Payload payloadUpdate) {
 		payload.setFormCode(payloadUpdate.getFormCode());
 		payload.setFileName(payloadUpdate.getFileName());
 		payload.setContent(payloadUpdate.getContent());

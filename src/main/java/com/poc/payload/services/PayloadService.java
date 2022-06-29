@@ -2,17 +2,18 @@ package com.poc.payload.services;
 
 import java.util.List;
 
-import com.poc.payload.dto.PayloadDTO;
+import com.poc.payload.domain.Payload;
+
 
 public interface PayloadService {
 	
-	List<PayloadDTO> findAll();
+	List<Payload> findAll();
 	
-	PayloadDTO findById(Long id);
+	Payload findById(Long id);
 	
-	PayloadDTO save(PayloadDTO payload);
+	Payload save(Payload payload);
 	
-	PayloadDTO update(PayloadDTO payloadUpdate, Long id);
+	Payload update(Payload payloadUpdate, Long id);
 	
 	void delete(Long id);
 }

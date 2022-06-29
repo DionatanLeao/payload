@@ -1,4 +1,4 @@
-package com.poc.payload.dto;
+package com.poc.payload.domain;
 
 import java.io.Serializable;
 
@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PayloadDTO implements Serializable {
+public class Payload implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

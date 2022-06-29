@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.poc.payload.dto.PayloadDTO;
+import com.poc.payload.domain.Payload;
 
 @SpringBootTest
 class PayloadTest {
@@ -19,16 +19,16 @@ class PayloadTest {
 
 	@Test
 	void test() {
-		PayloadDTO payload = new PayloadDTO();
-		
+		Payload payload = new Payload();
+
 		payload.setId(ID);
 		payload.setFormCode(FORM_CODE);
 		payload.setFileName(FILE_NAME);
 		payload.setContent(CONTENT);
 		payload.setToken(TOKEN);
-		
+
 		assertNotNull(payload);
-		
+
 		assertEquals(ID, payload.getId());
 		assertEquals(FORM_CODE, payload.getFormCode());
 		assertEquals(FILE_NAME, payload.getFileName());
