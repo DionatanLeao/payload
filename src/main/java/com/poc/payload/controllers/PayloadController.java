@@ -2,6 +2,7 @@ package com.poc.payload.controllers;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,8 @@ public class PayloadController {
 	private ModelMapper mapper;
 	
 	@GetMapping
-	public ResponseEntity<List<Payload>> findAll() {
-		return ResponseEntity.ok().body(service.findAll());
+	public ResponseEntity<List<PayloadDTO>> findAll() {
+		return ResponseEntity.ok().body(service.findAll().stream().map(x -> mapper.map(x, PayloadDTO.class)).collect(Collectors.toList()));
 	}
 	
 	@GetMapping("/{id}")
