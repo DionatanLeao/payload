@@ -61,13 +61,14 @@ class PayloadControllerTest {
 	@Test
 	void findAll() {
 		when(service.findAll()).thenReturn(List.of(payload));
+		when(mapper.map(Mockito.any(), Mockito.any())).thenReturn(payloadDTO);
 		
-		ResponseEntity<List<Payload>> response = controller.findAll();
+		ResponseEntity<List<PayloadDTO>> response = controller.findAll();
 		
 		assertNotNull(response.getBody());
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(ResponseEntity.class, response.getClass());
-		assertEquals(Payload.class, response.getBody().get(INDEX).getClass());
+		assertEquals(PayloadDTO.class, response.getBody().get(INDEX).getClass());
 		
 		assertEquals(ID, response.getBody().get(INDEX).getId());
 		assertEquals(FORM_CODE, response.getBody().get(INDEX).getFormCode());
