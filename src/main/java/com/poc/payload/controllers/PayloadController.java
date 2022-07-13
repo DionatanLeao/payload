@@ -46,12 +46,12 @@ public class PayloadController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Payload> save(@RequestBody Payload payload, 
+	public ResponseEntity<PayloadDTO> save(@RequestBody PayloadDTO payloadDto, 
 			@RequestHeader(name = "token", defaultValue = "") String token) {
-		payload.setToken(token);
-		Payload payloadSaved = service.save(payload);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(payload.getId()).toUri();
-		return ResponseEntity.created(uri).body(payloadSaved);
+		payloadDto.setToken(token);
+		Payload response = service.save(payloadDto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(response.getId()).toUri();
+		return ResponseEntity.created(uri).body(mapper.map(response, PayloadDTO.class));
 	}
 	
 	@PutMapping("/{id}")

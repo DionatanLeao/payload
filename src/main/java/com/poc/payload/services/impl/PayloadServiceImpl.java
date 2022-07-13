@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.poc.payload.domain.Payload;
+import com.poc.payload.domain.dto.PayloadDTO;
 import com.poc.payload.repositories.PayloadRepository;
 import com.poc.payload.services.PayloadService;
 
@@ -16,6 +18,9 @@ public class PayloadServiceImpl implements PayloadService {
 	
 	@Autowired
 	private PayloadRepository repository;
+	
+	@Autowired
+	private ModelMapper mapper;
 	
 	@Override
 	public List<Payload> findAll() {
@@ -29,8 +34,8 @@ public class PayloadServiceImpl implements PayloadService {
 	}
 	
 	@Override
-	public Payload save(Payload payload) {
-		return repository.save(payload);
+	public Payload save(PayloadDTO payloadDto) {
+		return repository.save(mapper.map(payloadDto, Payload.class));
 	}
 	
 	@Override

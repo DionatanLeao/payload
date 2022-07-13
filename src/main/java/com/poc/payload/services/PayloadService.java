@@ -3,6 +3,7 @@ package com.poc.payload.services;
 import java.util.List;
 
 import com.poc.payload.domain.Payload;
+import com.poc.payload.domain.dto.PayloadDTO;
 
 
 public interface PayloadService {
@@ -11,7 +12,7 @@ public interface PayloadService {
 	
 	Payload findById(Long id);
 	
-	Payload save(Payload payload);
+	Payload save(PayloadDTO payloadDto);
 	
 	Payload update(Payload payloadUpdate, Long id);
 	
