@@ -64,13 +64,13 @@ class PayloadServiceImplTest {
 	}
 	
 	@BeforeEach
-	void setUp() {
+	public void setUp() {
 		MockitoAnnotations.openMocks(this);
 		startPayload();
 	}
 
 	@Test
-	void findAll() {
+	public void findAll() {
 		when(repository.findAll()).thenReturn(List.of(payload));
 		
 		List<Payload> response = service.findAll();
@@ -86,7 +86,7 @@ class PayloadServiceImplTest {
 	}
 	
 	@Test
-	void findById() {
+	public void findById() {
 		when(repository.findById(Mockito.anyLong())).thenReturn(optionalPayload);
 		
 		Payload response = service.findById(ID);
@@ -101,7 +101,7 @@ class PayloadServiceImplTest {
 	}
 
 	@Test
-	void findByIdEntityNotFoundException() {
+	public void findByIdEntityNotFoundException() {
 		when(repository.findById(Mockito.anyLong())).thenThrow(new EntityNotFoundException(NOT_FOUND));
 
 		try {
@@ -114,7 +114,7 @@ class PayloadServiceImplTest {
 	}
 	
 	@Test
-	void save() {
+	public void save() {
 		when(repository.save(Mockito.any())).thenReturn(payload);
 		when(mapper.map(Mockito.any(), Mockito.any())).thenReturn(payload);
 		
@@ -129,11 +129,10 @@ class PayloadServiceImplTest {
 	}
 	
 	@Test
-	void update() {
-		when(repository.findById(Mockito.anyLong())).thenReturn(optionalPayload);
+	public void update() {
 		when(repository.save(Mockito.any())).thenReturn(payload);
 		
-		Payload response = service.update(payload, ID);
+		Payload response = service.update(payloadDto);
 		
 		assertNotNull(response);
 		assertEquals(Payload.class, response.getClass());
@@ -145,7 +144,7 @@ class PayloadServiceImplTest {
 	}
 	
 	@Test
-	void delete() {
+	public void delete() {
 		when(repository.findById(Mockito.anyLong())).thenReturn(optionalPayload);
 		doNothing().when(repository).delete(Mockito.any());
 		

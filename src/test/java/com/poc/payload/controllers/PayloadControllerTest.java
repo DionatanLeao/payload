@@ -47,19 +47,19 @@ class PayloadControllerTest {
 	
 	private PayloadDTO payloadDto;
 	
-	void start() {
+	private void start() {
 		payload = new Payload(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
 		payloadDto = new PayloadDTO(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
 	}
 
 	@BeforeEach
-	void setUp() throws Exception {
+	public void setUp() {
 		MockitoAnnotations.openMocks(this);
 		start();
 	}
 
 	@Test
-	void findAll() {
+	public void findAll() {
 		when(service.findAll()).thenReturn(List.of(payload));
 		when(mapper.map(Mockito.any(), Mockito.any())).thenReturn(payloadDto);
 		
@@ -79,7 +79,7 @@ class PayloadControllerTest {
 	}
 	
 	@Test
-	void findById() {
+	public void findById() {
 		when(service.findById(Mockito.anyLong())).thenReturn(payload);
 		when(mapper.map(Mockito.any(), Mockito.any())).thenReturn(payloadDto);
 		
@@ -97,7 +97,7 @@ class PayloadControllerTest {
 	}
 	
 	@Test
-	void save() {
+	public void save() {
 		when(service.save(Mockito.any())).thenReturn(payload);
 		
 		ResponseEntity<PayloadDTO> response = controller.save(payloadDto, TOKEN);
@@ -109,16 +109,17 @@ class PayloadControllerTest {
 	}
 	
 	@Test
-	void update() {
-		when(service.update(Mockito.any(), Mockito.anyLong())).thenReturn(payload);
+	public void update() {
+		when(service.update(Mockito.any())).thenReturn(payload);
+		when(mapper.map(Mockito.any(), Mockito.any())).thenReturn(payloadDto);
 		
-		ResponseEntity<Payload> response = controller.update(payload, ID, TOKEN);
+		ResponseEntity<PayloadDTO> response = controller.update(payloadDto, ID, TOKEN);
 		
 		assertNotNull(response);
 		assertNotNull(response.getBody());
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(ResponseEntity.class, response.getClass());
-		assertEquals(Payload.class, response.getBody().getClass());
+		assertEquals(PayloadDTO.class, response.getBody().getClass());
 		
 		assertEquals(ID, response.getBody().getId());
 		assertEquals(FORM_CODE, response.getBody().getFormCode());
@@ -128,7 +129,7 @@ class PayloadControllerTest {
 	}
 	
 	@Test
-	void delete() {
+	public void delete() {
 		doNothing().when(service).delete(Mockito.anyLong());
 		
 		ResponseEntity<Void> response = controller.delete(ID, TOKEN);
