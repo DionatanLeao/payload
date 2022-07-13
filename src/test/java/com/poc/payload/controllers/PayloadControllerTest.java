@@ -45,11 +45,11 @@ class PayloadControllerTest {
 	
 	private Payload payload;
 	
-	private PayloadDTO payloadDTO;
+	private PayloadDTO payloadDto;
 	
 	void start() {
 		payload = new Payload(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
-		payloadDTO = new PayloadDTO(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
+		payloadDto = new PayloadDTO(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
 	}
 
 	@BeforeEach
@@ -61,7 +61,7 @@ class PayloadControllerTest {
 	@Test
 	void findAll() {
 		when(service.findAll()).thenReturn(List.of(payload));
-		when(mapper.map(Mockito.any(), Mockito.any())).thenReturn(payloadDTO);
+		when(mapper.map(Mockito.any(), Mockito.any())).thenReturn(payloadDto);
 		
 		ResponseEntity<List<PayloadDTO>> response = controller.findAll();
 		
@@ -81,7 +81,7 @@ class PayloadControllerTest {
 	@Test
 	void findById() {
 		when(service.findById(Mockito.anyLong())).thenReturn(payload);
-		when(mapper.map(Mockito.any(), Mockito.any())).thenReturn(payloadDTO);
+		when(mapper.map(Mockito.any(), Mockito.any())).thenReturn(payloadDto);
 		
 		ResponseEntity<PayloadDTO> response = controller.findById(ID);
 		
@@ -100,7 +100,7 @@ class PayloadControllerTest {
 	void save() {
 		when(service.save(Mockito.any())).thenReturn(payload);
 		
-		ResponseEntity<Payload> response = controller.save(payload, TOKEN);
+		ResponseEntity<PayloadDTO> response = controller.save(payloadDto, TOKEN);
 		
 		assertNotNull(response);
 		assertEquals(ResponseEntity.class, response.getClass());

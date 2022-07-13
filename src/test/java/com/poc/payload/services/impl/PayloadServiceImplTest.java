@@ -18,9 +18,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.poc.payload.domain.Payload;
+import com.poc.payload.domain.dto.PayloadDTO;
 import com.poc.payload.repositories.PayloadRepository;
 
 @SpringBootTest
@@ -46,13 +48,19 @@ class PayloadServiceImplTest {
 	@Mock
 	private PayloadRepository repository;
 	
+	@Mock
+	private ModelMapper mapper;
+	
 	private Payload payload;
 	
+	private PayloadDTO payloadDto;
+
 	private Optional<Payload> optionalPayload;
 	
 	private void startPayload() {
 		payload = new Payload(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
 		optionalPayload = Optional.of(new Payload(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN));
+		payloadDto = new PayloadDTO(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
 	}
 	
 	@BeforeEach
@@ -108,8 +116,9 @@ class PayloadServiceImplTest {
 	@Test
 	void save() {
 		when(repository.save(Mockito.any())).thenReturn(payload);
+		when(mapper.map(Mockito.any(), Mockito.any())).thenReturn(payload);
 		
-		Payload response = service.save(payload);
+		Payload response = service.save(payloadDto);
 		
 		assertNotNull(response);
 		assertEquals(Payload.class, response.getClass());
