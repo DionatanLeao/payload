@@ -14,7 +14,7 @@ public interface PayloadService {
 	
 	Payload save(PayloadDTO payloadDto);
 	
-	Payload update(Payload payloadUpdate, Long id);
+	Payload update(PayloadDTO payloadUpdate);
 	
 	void delete(Long id);
 }

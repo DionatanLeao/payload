@@ -50,16 +50,20 @@ public class PayloadController {
 			@RequestHeader(name = "token", defaultValue = "") String token) {
 		payloadDto.setToken(token);
 		Payload response = service.save(payloadDto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(response.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder
+					.fromCurrentRequest()
+					.path("/{id}")
+					.buildAndExpand(response.getId()).toUri();
+		
 		return ResponseEntity.created(uri).body(mapper.map(response, PayloadDTO.class));
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Payload> update(@RequestBody Payload payloadUpdate, @PathVariable Long id, 
+	public ResponseEntity<PayloadDTO> update(@RequestBody PayloadDTO payloadUpdate, @PathVariable Long id, 
 			@RequestHeader(name = "token", defaultValue = "") String token) {
 		payloadUpdate.setToken(token);
-		Payload payload = service.update(payloadUpdate, id);
-		return ResponseEntity.ok().body(payload);
+		payloadUpdate.setId(id);
+		return ResponseEntity.ok().body(mapper.map(service.update(payloadUpdate), PayloadDTO.class));
 	}
 	
 	@DeleteMapping("/{id}")

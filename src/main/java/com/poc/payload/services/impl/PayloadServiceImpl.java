@@ -39,25 +39,14 @@ public class PayloadServiceImpl implements PayloadService {
 	}
 	
 	@Override
-	public Payload update(Payload payloadUpdate, Long id) {
-		Payload payload = findById(id);
-		Payload payloadUpdated = updateData(payload, payloadUpdate);
-		return repository.save(payloadUpdated);
-		
+	public Payload update(PayloadDTO payloadUpdate) {
+		return repository.save(mapper.map(payloadUpdate, Payload.class));
 	}
 	
 	@Override
 	public void delete(Long id) {
 		Payload payload = findById(id);
 		repository.delete(payload);
-	}
-	
-	private Payload updateData(Payload payload, Payload payloadUpdate) {
-		payload.setFormCode(payloadUpdate.getFormCode());
-		payload.setFileName(payloadUpdate.getFileName());
-		payload.setContent(payloadUpdate.getContent());
-		payload.setToken(payloadUpdate.getToken());
-		return payload;
 	}
 	
  }
