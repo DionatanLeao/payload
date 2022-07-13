@@ -18,7 +18,7 @@ class PayloadTest {
 	private static final long ID = 1L;
 
 	@Test
-	void test() {
+	void testPayload() {
 		Payload payload = new Payload();
 
 		payload.setId(ID);
