@@ -29,6 +29,8 @@ import com.poc.payload.services.PayloadService;
 @CrossOrigin(origins = "http://localhost:8080", methods = RequestMethod.PUT)
 public class PayloadController {
 	
+	private static final String ID = "/{id}";
+
 	@Autowired
 	private PayloadService service;
 	
@@ -40,7 +42,7 @@ public class PayloadController {
 		return ResponseEntity.ok().body(service.findAll().stream().map(x -> mapper.map(x, PayloadDTO.class)).collect(Collectors.toList()));
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping(ID)
 	public ResponseEntity<PayloadDTO> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(mapper.map(service.findById(id), PayloadDTO.class));		
 	}
@@ -52,13 +54,13 @@ public class PayloadController {
 		Payload response = service.save(payloadDto);
 		URI uri = ServletUriComponentsBuilder
 					.fromCurrentRequest()
-					.path("/{id}")
+					.path(ID)
 					.buildAndExpand(response.getId()).toUri();
 		
 		return ResponseEntity.created(uri).body(mapper.map(response, PayloadDTO.class));
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping(ID)
 	public ResponseEntity<PayloadDTO> update(@RequestBody PayloadDTO payloadUpdate, @PathVariable Long id, 
 			@RequestHeader(name = "token", defaultValue = "") String token) {
 		payloadUpdate.setToken(token);
@@ -66,7 +68,7 @@ public class PayloadController {
 		return ResponseEntity.ok().body(mapper.map(service.update(payloadUpdate), PayloadDTO.class));
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping(ID)
 	public ResponseEntity<Void> delete(@PathVariable Long id, 
 			@RequestHeader(name = "token", defaultValue = "") String token) { 
 		service.delete(id);
