@@ -3,14 +3,19 @@ package com.poc.payload.entities;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.Arrays;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.poc.payload.domain.FieldList;
 import com.poc.payload.domain.Payload;
 
 @SpringBootTest
 class PayloadTest {
-
+	
+	private static final String TYPE = "type";
+	private static final String FIELD_NAME = "fieldName";
 	private static final String TOKEN = "token";
 	private static final String CONTENT = "content";
 	private static final String FILE_NAME = "arquivo_0";
@@ -24,16 +29,17 @@ class PayloadTest {
 		payload.setId(ID);
 		payload.setFormCode(FORM_CODE);
 		payload.setFileName(FILE_NAME);
-		payload.setContent(CONTENT);
 		payload.setToken(TOKEN);
+		
+		FieldList fieldList =  new FieldList(ID, FIELD_NAME, CONTENT, TYPE);
+		payload.setFieldList(Arrays.asList(fieldList));
 
 		assertNotNull(payload);
-
 		assertEquals(ID, payload.getId());
 		assertEquals(FORM_CODE, payload.getFormCode());
 		assertEquals(FILE_NAME, payload.getFileName());
-		assertEquals(CONTENT, payload.getContent());
 		assertEquals(TOKEN, payload.getToken());
+		assertEquals(CONTENT, payload.getFieldList());
 	}
 
 }

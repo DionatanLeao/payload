@@ -31,7 +31,7 @@ import com.poc.payload.repositories.PayloadRepository;
 @SpringBootTest
 class PayloadServiceImplTest {
 	
-	private static final java.lang.String TYPE = "type";
+	private static final String TYPE = "type";
 
 	private static final String FIELD_NAME = "fieldName";
 
