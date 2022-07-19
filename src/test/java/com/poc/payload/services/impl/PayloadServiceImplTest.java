@@ -32,21 +32,13 @@ import com.poc.payload.repositories.PayloadRepository;
 class PayloadServiceImplTest {
 	
 	private static final String TYPE = "type";
-
 	private static final String FIELD_NAME = "fieldName";
-
 	private static final Integer INDEX = 0;
-
 	private static final String TOKEN = "R2VyYW5kbyB0b2tlbiBTU08=";
-
 	private static final String CONTENT = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis";
-
 	private static final String FILE_NAME = "arquivo_1";
-
 	private static final String FORM_CODE = "x123";
-
 	private static final Long ID = 1L;
-
 	private static final String NOT_FOUND = "Not found: " + ID;
 
 	@InjectMocks

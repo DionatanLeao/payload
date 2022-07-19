@@ -7,6 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,13 +21,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.poc.payload.domain.FieldList;
 import com.poc.payload.domain.Payload;
+import com.poc.payload.domain.dto.FieldListDTO;
 import com.poc.payload.domain.dto.PayloadDTO;
 import com.poc.payload.services.impl.PayloadServiceImpl;
 
 @SpringBootTest
 class PayloadControllerTest {
 	
+	private static final String TYPE = "type";
+	private static final String FIELD_NAME = "fieldName";
 	private static final String TOKEN = "token";
 	private static final String CONTENT = "content";
 	private static final String FILE_NAME = "arquivo_0";
@@ -47,9 +52,18 @@ class PayloadControllerTest {
 	
 	private PayloadDTO payloadDto;
 	
+	private FieldListDTO fieldListDto;
+	
+	private List<FieldList> list = new ArrayList<>();
+	private List<FieldListDTO> listDto = new ArrayList<>();
+	
 	private void start() {
-		payload = new Payload(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
-		payloadDto = new PayloadDTO(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
+		FieldList fieldList =  new FieldList(ID, FIELD_NAME, CONTENT, TYPE);
+		fieldListDto =  new FieldListDTO(FIELD_NAME, CONTENT, TYPE);
+		list.add(fieldList);
+		payload = new Payload(ID, FORM_CODE, FILE_NAME, TOKEN, list);
+		listDto.add(fieldListDto);
+		payloadDto = new PayloadDTO(ID, FORM_CODE, FILE_NAME, TOKEN, listDto);
 	}
 
 	@BeforeEach
@@ -73,8 +87,8 @@ class PayloadControllerTest {
 		assertEquals(ID, response.getBody().get(INDEX).getId());
 		assertEquals(FORM_CODE, response.getBody().get(INDEX).getFormCode());
 		assertEquals(FILE_NAME, response.getBody().get(INDEX).getFileName());
-		assertEquals(CONTENT, response.getBody().get(INDEX).getContent());
 		assertEquals(TOKEN, response.getBody().get(INDEX).getToken());
+		assertEquals(CONTENT, response.getBody().get(INDEX).getFieldList());
 		
 	}
 	
@@ -92,7 +106,7 @@ class PayloadControllerTest {
 		assertEquals(ID, response.getBody().getId());
 		assertEquals(FORM_CODE, response.getBody().getFormCode());
 		assertEquals(FILE_NAME, response.getBody().getFileName());
-		assertEquals(CONTENT, response.getBody().getContent());
+		assertEquals(CONTENT, response.getBody().getFieldList());
 		
 	}
 	
@@ -124,7 +138,7 @@ class PayloadControllerTest {
 		assertEquals(ID, response.getBody().getId());
 		assertEquals(FORM_CODE, response.getBody().getFormCode());
 		assertEquals(FILE_NAME, response.getBody().getFileName());
-		assertEquals(CONTENT, response.getBody().getContent());
+		assertEquals(CONTENT, response.getBody().getFieldList());
 		
 	}
 	
