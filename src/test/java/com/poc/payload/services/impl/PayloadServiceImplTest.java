@@ -7,6 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,13 +22,19 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.poc.payload.domain.FieldList;
 import com.poc.payload.domain.Payload;
+import com.poc.payload.domain.dto.FieldListDTO;
 import com.poc.payload.domain.dto.PayloadDTO;
 import com.poc.payload.repositories.PayloadRepository;
 
 @SpringBootTest
 class PayloadServiceImplTest {
 	
+	private static final java.lang.String TYPE = "type";
+
+	private static final String FIELD_NAME = "fieldName";
+
 	private static final Integer INDEX = 0;
 
 	private static final String TOKEN = "R2VyYW5kbyB0b2tlbiBTU08=";
@@ -57,10 +64,21 @@ class PayloadServiceImplTest {
 
 	private Optional<Payload> optionalPayload;
 	
+	private FieldList fieldList;
+	
+	private FieldListDTO fieldListDto;
+	
+	private List<FieldList> list = new ArrayList<>();
+	private List<FieldListDTO> listDto = new ArrayList<>();
+	
 	private void startPayload() {
-		payload = new Payload(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
-		optionalPayload = Optional.of(new Payload(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN));
-		payloadDto = new PayloadDTO(ID, FORM_CODE, FILE_NAME, CONTENT, TOKEN);
+		FieldList fieldList =  new FieldList(ID, FIELD_NAME, CONTENT, TYPE);
+		fieldListDto =  new FieldListDTO(FIELD_NAME, CONTENT, TYPE);
+		list.add(fieldList);
+		payload = new Payload(ID, FORM_CODE, FILE_NAME, TOKEN, list);
+		optionalPayload = Optional.of(new Payload(ID, FORM_CODE, FILE_NAME, TOKEN, list));
+		listDto.add(fieldListDto);
+		payloadDto = new PayloadDTO(ID, FORM_CODE, FILE_NAME, TOKEN, listDto);
 	}
 	
 	@BeforeEach
@@ -81,7 +99,7 @@ class PayloadServiceImplTest {
 		assertEquals(ID, response.get(INDEX).getId());
 		assertEquals(FORM_CODE, response.get(INDEX).getFormCode());
 		assertEquals(FILE_NAME, response.get(INDEX).getFileName());
-		assertEquals(CONTENT, response.get(INDEX).getContent());
+		assertEquals(fieldList, response.get(INDEX).getFieldList());
 
 	}
 	
@@ -96,7 +114,7 @@ class PayloadServiceImplTest {
 		assertEquals(ID, response.getId());
 		assertEquals(FORM_CODE, response.getFormCode());
 		assertEquals(FILE_NAME, response.getFileName());
-		assertEquals(CONTENT, response.getContent());
+		assertEquals(fieldList, response.getFieldList());
 
 	}
 
@@ -125,7 +143,8 @@ class PayloadServiceImplTest {
 		assertEquals(ID, response.getId());
 		assertEquals(FORM_CODE, response.getFormCode());
 		assertEquals(FILE_NAME, response.getFileName());
-		assertEquals(CONTENT, response.getContent());
+		assertEquals(fieldList, response.getFieldList());
+
 	}
 	
 	@Test
@@ -139,7 +158,7 @@ class PayloadServiceImplTest {
 		assertEquals(ID, response.getId());
 		assertEquals(FORM_CODE, response.getFormCode());
 		assertEquals(FILE_NAME, response.getFileName());
-		assertEquals(CONTENT, response.getContent());
+		assertEquals(fieldList, response.getFieldList());
 		
 	}
 	

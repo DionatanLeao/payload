@@ -33,7 +33,6 @@ public class Payload implements Serializable {
 	
 	private String formCode;
 	private String fileName;
-	private String content;
 	
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String token;
