@@ -1,6 +1,10 @@
 package com.poc.payload.domain.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.poc.payload.domain.FieldList;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,4 +23,6 @@ public class PayloadDTO {
 	
 	@JsonIgnore
 	private String token;
+	
+	private List<FieldList> fieldList = new ArrayList<>();
 }
