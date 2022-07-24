@@ -88,7 +88,7 @@ class PayloadControllerTest {
 		assertEquals(FORM_CODE, response.getBody().get(INDEX).getFormCode());
 		assertEquals(FILE_NAME, response.getBody().get(INDEX).getFileName());
 		assertEquals(TOKEN, response.getBody().get(INDEX).getToken());
-		assertEquals(CONTENT, response.getBody().get(INDEX).getFieldList());
+		assertEquals(listDto, response.getBody().get(INDEX).getFieldList());
 		
 	}
 	
@@ -106,7 +106,7 @@ class PayloadControllerTest {
 		assertEquals(ID, response.getBody().getId());
 		assertEquals(FORM_CODE, response.getBody().getFormCode());
 		assertEquals(FILE_NAME, response.getBody().getFileName());
-		assertEquals(CONTENT, response.getBody().getFieldList());
+		assertEquals(listDto, response.getBody().getFieldList());
 		
 	}
 	
@@ -138,7 +138,7 @@ class PayloadControllerTest {
 		assertEquals(ID, response.getBody().getId());
 		assertEquals(FORM_CODE, response.getBody().getFormCode());
 		assertEquals(FILE_NAME, response.getBody().getFileName());
-		assertEquals(CONTENT, response.getBody().getFieldList());
+		assertEquals(listDto, response.getBody().getFieldList());
 		
 	}
 	

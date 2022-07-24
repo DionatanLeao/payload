@@ -3,11 +3,14 @@ package com.poc.payload.domain.dto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-class payloadDtoDTOTest {
+@SpringBootTest
+public class PayloadDTOTest {
 	
 	private static final String TYPE = "type";
 	private static final String FIELD_NAME = "fieldName";
@@ -25,17 +28,18 @@ class payloadDtoDTOTest {
 		payloadDto.setFormCode(FORM_CODE);
 		payloadDto.setFileName(FILE_NAME);
 		payloadDto.setToken(TOKEN);
+		FieldListDTO fieldListDto = new FieldListDTO(FIELD_NAME, CONTENT, TYPE);
 		
-		FieldListDTO fieldListDto =  new FieldListDTO(FIELD_NAME, CONTENT, TYPE);
-		payloadDto.setFieldList(Arrays.asList(fieldListDto));
+		List<FieldListDTO> listFieldList =  new ArrayList<>();
+		listFieldList.add(fieldListDto);
+		payloadDto.setFieldList(listFieldList);
 
 		assertNotNull(payloadDto);
-
 		assertEquals(ID, payloadDto.getId());
 		assertEquals(FORM_CODE, payloadDto.getFormCode());
 		assertEquals(FILE_NAME, payloadDto.getFileName());
 		assertEquals(TOKEN, payloadDto.getToken());
-		assertEquals(CONTENT, payloadDto.getFieldList());
+		assertEquals(listFieldList, payloadDto.getFieldList());
 	}
 
 }

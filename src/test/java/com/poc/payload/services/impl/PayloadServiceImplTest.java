@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -27,6 +25,7 @@ import com.poc.payload.domain.Payload;
 import com.poc.payload.domain.dto.FieldListDTO;
 import com.poc.payload.domain.dto.PayloadDTO;
 import com.poc.payload.repositories.PayloadRepository;
+import com.poc.payload.services.exceptions.ObjectNotFoundException;
 
 @SpringBootTest
 class PayloadServiceImplTest {
@@ -39,7 +38,7 @@ class PayloadServiceImplTest {
 	private static final String FILE_NAME = "arquivo_1";
 	private static final String FORM_CODE = "x123";
 	private static final Long ID = 1L;
-	private static final String NOT_FOUND = "Not found: " + ID;
+	private static final String NOT_FOUND = "Payload não encontrado";
 
 	@InjectMocks
 	private PayloadServiceImpl service;
@@ -55,8 +54,6 @@ class PayloadServiceImplTest {
 	private PayloadDTO payloadDto;
 
 	private Optional<Payload> optionalPayload;
-	
-	private FieldList fieldList;
 	
 	private FieldListDTO fieldListDto;
 	
@@ -91,7 +88,7 @@ class PayloadServiceImplTest {
 		assertEquals(ID, response.get(INDEX).getId());
 		assertEquals(FORM_CODE, response.get(INDEX).getFormCode());
 		assertEquals(FILE_NAME, response.get(INDEX).getFileName());
-		assertEquals(fieldList, response.get(INDEX).getFieldList());
+		assertEquals(list, response.get(INDEX).getFieldList());
 
 	}
 	
@@ -106,18 +103,18 @@ class PayloadServiceImplTest {
 		assertEquals(ID, response.getId());
 		assertEquals(FORM_CODE, response.getFormCode());
 		assertEquals(FILE_NAME, response.getFileName());
-		assertEquals(fieldList, response.getFieldList());
+		assertEquals(list, response.getFieldList());
 
 	}
 
 	@Test
-	public void findByIdEntityNotFoundException() {
-		when(repository.findById(Mockito.anyLong())).thenThrow(new EntityNotFoundException(NOT_FOUND));
+	public void findByIdObjectNotFoundException() {
+		when(repository.findById(Mockito.anyLong())).thenThrow(new ObjectNotFoundException(NOT_FOUND));
 
 		try {
 			service.findById(ID);
 		} catch (Exception e) {
-			assertEquals(EntityNotFoundException.class, e.getClass());
+			assertEquals(ObjectNotFoundException.class, e.getClass());
 			assertEquals(NOT_FOUND, e.getMessage());
 		}	
 		
@@ -135,7 +132,7 @@ class PayloadServiceImplTest {
 		assertEquals(ID, response.getId());
 		assertEquals(FORM_CODE, response.getFormCode());
 		assertEquals(FILE_NAME, response.getFileName());
-		assertEquals(fieldList, response.getFieldList());
+		assertEquals(list, response.getFieldList());
 
 	}
 	
@@ -150,7 +147,7 @@ class PayloadServiceImplTest {
 		assertEquals(ID, response.getId());
 		assertEquals(FORM_CODE, response.getFormCode());
 		assertEquals(FILE_NAME, response.getFileName());
-		assertEquals(fieldList, response.getFieldList());
+		assertEquals(list, response.getFieldList());
 		
 	}
 	
