@@ -1,8 +1,7 @@
 package com.poc.payload.services.impl;
 
 import java.util.List;
-
-import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import com.poc.payload.domain.Payload;
 import com.poc.payload.domain.dto.PayloadDTO;
 import com.poc.payload.repositories.PayloadRepository;
 import com.poc.payload.services.PayloadService;
+import com.poc.payload.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class PayloadServiceImpl implements PayloadService {
@@ -29,8 +29,8 @@ public class PayloadServiceImpl implements PayloadService {
 	
 	@Override
 	public Payload findById(Long id) {
-		Payload payload = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Not found: " + id));
-		return payload;
+		Optional<Payload> payload = repository.findById(id);
+		return payload.orElseThrow(() -> new ObjectNotFoundException("Payload não encontrado"));
 	}
 	
 	@Override
